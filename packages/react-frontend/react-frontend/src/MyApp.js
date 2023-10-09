@@ -16,8 +16,7 @@ import Form from './Form';
         method: 'DELETE',
       })
         .then((response) => {
-          if (response.ok) {
-            // If the delete request is successful, update the state to remove the deleted user
+          if (response.status === 404) {
             setCharacters((prevCharacters) =>
               prevCharacters.filter((character) => character.id !== userId)
             );
@@ -30,8 +29,33 @@ import Form from './Form';
         });
     }
 
+    function postUser(person) {
+      const promise = fetch("Http://localhost:8080/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(person),
+      });
+      return promise;
+    }
+
     function updateList(person) {
-      setCharacters([...characters, person]);
+      postUser(person)
+        .then((response) => {
+          if (response.status === 201) {
+            return response.json();
+          } else {
+            throw new Error("Failed to add user");
+          }
+        })
+        .then((newUser) => {
+          console.log("hello", newUser)
+          setCharacters([...characters, newUser.user]);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
     
 
