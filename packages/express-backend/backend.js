@@ -110,7 +110,6 @@ app.get('/users/:id', (req, res) => {
 });
 
 
-
 app.get('/users', (req, res) => {
     const name = req.params['name']; //or req.params.id
 
