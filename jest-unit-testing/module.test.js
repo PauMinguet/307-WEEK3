@@ -1,43 +1,53 @@
-import mut from './module.js'; // MUT = Module Under Test
+import Portfolio from './module.js';
 
-test('Testing sum -- success', () => {
-  const expected = 30;
-  const got = mut.two_digit_calc("12+18");
-  expect(got).toBe(expected);
+let p;
+
+p = new Portfolio();
+
+test('Testing createPortfolio-- success', () => {
+  const expected = [];
+  const got = p.createPortfolio();
+  expect(got).toStrictEqual(expected);
 });
 
-test('Testing sub -- success', () => {
-  const expected = 30;
-  const got = mut.two_digit_calc("43-13");
-  expect(got).toBe(expected);
+test('Testing isEmpty-- success', () => {
+  const got = p.isEmpty();
+  expect(got).toBe(true);
 });
 
-test('Testing mult -- success', () => {
-  const expected = 30;
-  const got = mut.two_digit_calc("03*10");
-  expect(got).toBe(expected);
+test('Testing count-- success', () => {
+  const got = p.count();
+  expect(got).toBe(0);
 });
 
-test('Testing div -- success', () => {
-  const expected = 30;
-  const got = mut.two_digit_calc("90/03");
-  expect(got).toBe(expected);
+test('Testing purchase-- success', () => {
+  const expected = [["AAPL", 10]];
+  const got = p.purchase("AAPL", 10);
+  expect(got).toStrictEqual(expected);
 });
 
-test('Testing wrong operator -- success', () => {
-  const expected = NaN;
-  const got = mut.two_digit_calc("12{08");
-  expect(got).toBe(expected);
+test('Testing purchase 2-- success', () => {
+  const expected = "Invalid number of stocks";
+  const got = p.purchase("FAIL", -2);
+  expect(got).toStrictEqual(expected);
 });
 
-test('Testing wrong string length -- success', () => {
-  const expected = NaN;
-  const got = mut.two_digit_calc("12{081");
-  expect(got).toBe(expected);
+test('Testing sale 1 -- success', () => {
+  console.log(p.portfolio)
+  const expected = [["AAPL", 7]];
+  const got = p.sale("AAPL", 3);
+  expect(got).toEqual(expected);
 });
 
-test('Testing non number input -- success', () => {
-  const expected = NaN;
-  const got = mut.two_digit_calc("a1+23");
-  expect(got).toBe(expected);
+test('Testing sale 3 -- success', () => {
+  const expected = "ShareSaleException";
+  expect(() => p.sale("AAPL", 12)).toThrow(expected);
 });
+
+
+test('Testing sale 2 -- success', () => {
+  const expected = [];
+  const got = p.sale("AAPL", 7);
+  expect(got).toEqual(expected);
+});
+
